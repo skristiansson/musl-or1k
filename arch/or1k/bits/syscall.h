@@ -60,7 +60,7 @@
 #define __NR_pipe2 59
 #define __NR_quotactl 60
 #define __NR_getdents64 61
-#define __NR_llseek 62
+#define __NR__llseek 62
 #define __NR_read 63
 #define __NR_write 64
 #define __NR_readv 65
@@ -514,8 +514,9 @@
 #define SYS_fstatfs64 __NR_fstatfs64
 #define SYS_truncate64 __NR_truncate64
 #define SYS_ftruncate64 __NR_ftruncate64
-#define SYS_llseek __NR_llseek
+#define SYS__llseek __NR__llseek
 #define SYS_sendfile64 __NR_sendfile64
+#define SYS_fstatat64 __NR_fstatat64
 #define SYS_fstat64 __NR_fstat64
 #define SYS_mmap2 __NR_mmap2
 #define SYS_fadvise64_64 __NR_fadvise64_64

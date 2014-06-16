@@ -30,6 +30,11 @@ static inline void do_single_reloc(
 	case R_OR1K_TLS_DTPOFF:
 		*reloc_addr = def.sym->st_value + addend;
 		break;
+	case R_OR1K_TLS_TPOFF:
+		*reloc_addr += def.sym
+			? def.sym->st_value + def.dso->tls_offset
+			: self->tls_offset;
+		break;
 	}
 }
 

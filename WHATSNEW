@@ -1238,3 +1238,60 @@ arch-specific bugs fixed:
 - misdetection of superh ABI variant by configure on gcc 3.x
 - missing SO_RCVBUFFORCE and SO_SNDBUFFORCE in mips socket.h
 - build regression on armv6 and later with -mthumb
+
+
+
+1.1.2 release notes
+
+new features:
+- multi-protocol matches (tcp and udp) in getaddrinfo
+- support for AI_V4MAPPED and AI_ALL flags to getaddrinfo
+- reverse name lookups from /etc/hosts
+- reverse service lookups from /etc/services
+- support for service aliases in /etc/services
+- ipsec and tunneling protocols to getprotoent-family functions
+- res_send, res_mkquery, res_querydomain, and dn_comp functions
+- ipv6 scope id handling for link-local scope addresses
+- previously-unimplemented %C and %y in strptime now work
+- vdso clock_gettime acceleration on i386 (new kernel feature)
+- better O_CLOEXEC/SOCK_CLOEXEC fallbacks for old kernels
+
+bugs fixed:
+- buffer overflow in dns response parsing (CVE-2014-3484)
+- possible infinite loop in dns response parsing
+- sendfile off_t 32/64-bit size mismatch
+- incorrect end pointer in some cases when wcsrtombs stops early
+- incorrect if_nametoindex return value when interface does not exist
+- dummy "ent" function aliases that possibly shadowed real ones
+- tmpfile fd leak on memory exhaustion
+- getaddrinfo returning EAI_NONAME for some transient failures
+
+arch-specific bugs fixed:
+- broken kernel side RLIM_INFINITY on mips
+- incorrect syscall argument 6/7 types for pselect on x32
+
+
+
+1.1.3 release notes
+
+new features:
+- address sorting in getaddrinfo, etc. modeled on rfc 3484/6724
+- default timezone taken from /etc/localtime when $TZ is unset
+- getopt double-colon extension for optional arguments
+- support for TLSDESC-based (gnu2) TLS dialect on i386 and x86_64
+- sendmmsg/recvmmsg (linux-specific)
+- fmtmsg (last mandatory XSI function that was missing)
+
+compatibility:
+- treat dns rcode=2 as temporary failure, not negative result
+- working thread-pointer for pre-2.6 kernels on i386
+- further ABI-compat symbols: __xmknod[at], __sysv_signal
+
+bugs fixed:
+- memmem false positives/false negatives/crashes from invalid logic
+- gethostby*_r not setting result pointer to null on failure
+- aliasing violations in syscall.h SYSLOG_NAMES feature
+- fanotify_mark syscall arguments wrong
+
+arch-specific bugs fixed:
+- various subtle relocation bugs in powerpc and sh dynamic linker

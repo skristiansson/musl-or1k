@@ -13,7 +13,7 @@ weak_alias(dummy_0, __pthread_tsd_run_dtors);
 
 _Noreturn void pthread_exit(void *result)
 {
-	pthread_t self = pthread_self();
+	pthread_t self = __pthread_self();
 	sigset_t set;
 
 	self->result = result;
@@ -57,6 +57,12 @@ _Noreturn void pthread_exit(void *result)
 		exit(0);
 	}
 
+	if (self->locale != &libc.global_locale) {
+		a_dec(&libc.uselocale_cnt);
+		if (self->locale->ctype_utf8)
+			a_dec(&libc.bytelocale_cnt_minus_1);
+	}
+
 	if (self->detached && self->map_base) {
 		/* Detached threads must avoid the kernel clear_child_tid
 		 * feature, since the virtual address will have been
@@ -78,7 +84,7 @@ _Noreturn void pthread_exit(void *result)
 void __do_cleanup_push(struct __ptcb *cb)
 {
 	if (!libc.has_thread_pointer) return;
-	struct pthread *self = pthread_self();
+	struct pthread *self = __pthread_self();
 	cb->__next = self->cancelbuf;
 	self->cancelbuf = cb;
 }
@@ -201,11 +207,11 @@ int pthread_create(pthread_t *restrict res, const pthread_attr_t *restrict attrp
 	new->stack = stack;
 	new->stack_size = stack - stack_limit;
 	new->pid = self->pid;
-	new->errno_ptr = &new->errno_val;
 	new->start = entry;
 	new->start_arg = arg;
 	new->self = new;
 	new->tsd = (void *)tsd;
+	new->locale = &libc.global_locale;
 	if (attr._a_detach) {
 		new->detached = 1;
 		flags -= CLONE_CHILD_CLEARTID;

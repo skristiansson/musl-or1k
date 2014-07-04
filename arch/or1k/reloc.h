@@ -4,38 +4,29 @@
 
 #define LDSO_ARCH "or1k"
 
-#define IS_COPY(x) ((x)==R_OR1K_COPY)
-#define IS_PLT(x) ((x)==R_OR1K_JUMP_SLOT)
+#define TPOFF_K 0
 
-static inline void do_single_reloc(
-	struct dso *self, unsigned char *base_addr,
-	size_t *reloc_addr, int type, size_t addend,
-	Sym *sym, size_t sym_size,
-	struct symdef def, size_t sym_val)
+static int remap_rel(int type)
 {
 	switch(type) {
+	case R_OR1K_32:
+		return REL_SYMBOLIC;
 	case R_OR1K_GLOB_DAT:
+		return REL_GOT;
 	case R_OR1K_JMP_SLOT:
-		*reloc_addr = sym_val + addend;
-		break;
+		return REL_PLT;
 	case R_OR1K_RELATIVE:
-		*reloc_addr = (size_t)base_addr + addend;
-		break;
+		return REL_RELATIVE;
 	case R_OR1K_COPY:
-		memcpy(reloc_addr, (void *)sym_val, sym_size);
-		break;
+		return REL_COPY;
 	case R_OR1K_TLS_DTPMOD:
-		*reloc_addr = def.dso ? def.dso->tls_id : self->tls_id;
-		break;
+		return REL_DTPMOD;
 	case R_OR1K_TLS_DTPOFF:
-		*reloc_addr = def.sym->st_value + addend;
-		break;
+		return REL_DTPOFF;
 	case R_OR1K_TLS_TPOFF:
-		*reloc_addr += def.sym
-			? def.sym->st_value + def.dso->tls_offset
-			: self->tls_offset;
-		break;
+		return REL_TPOFF;
 	}
+	return 0;
 }
 
 #include "syscall.h"

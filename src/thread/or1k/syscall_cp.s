@@ -11,7 +11,7 @@ __cp_begin:
 	l.ori	r4, r6, 0
 	l.ori	r5, r7, 0
 	l.ori	r6, r8, 0
-	l.lwz	r7, 4(r1)
+	l.lwz	r7, 0(r1)
 	l.sys	1
 .global __cp_end
 __cp_end:

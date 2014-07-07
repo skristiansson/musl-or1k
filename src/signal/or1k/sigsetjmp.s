@@ -5,7 +5,7 @@
 sigsetjmp:
 __sigsetjmp:
 	l.sfeq	r4, r0
-	l.bf	setjmp
+	l.bf	plt(setjmp)
 	 l.sw	128(r3), r4	/* buf->__fl = save */
 
 	l.addi	r1, r1, -8
@@ -13,10 +13,10 @@ __sigsetjmp:
 	l.sw	4(r1), r3
 	l.addi	r5, r3, 132	/* buf->__ss */
 	l.add	r4, r0, r0
-	l.jal	sigprocmask
+	l.jal	plt(sigprocmask)
 	 l.ori	r3, r0, 2	/* SIG_SETMASK */
 
 	l.lwz	r9, 0(r1)
 	l.lwz	r3, 4(r1)
-	l.j	setjmp
+	l.j	plt(setjmp)
 	 l.addi	r1, r1, 8

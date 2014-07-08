@@ -2,9 +2,11 @@
 _dlstart:
 	l.jal	1f
 	 l.nop
-1:	l.movhi	r16, gotpchi(_GLOBAL_OFFSET_TABLE_+0)
-	l.ori	r16, r16, gotpclo(_GLOBAL_OFFSET_TABLE_+4)
-	l.add	r16, r16, r9
+1:	l.movhi	r5, gotpchi(_GLOBAL_OFFSET_TABLE_+0)
+	l.ori	r5, r5, gotpclo(_GLOBAL_OFFSET_TABLE_+4)
+	l.add	r5, r5, r9
+	l.lwz	r3, 0(r1)
+	l.addi	r4, r1, 4
 	l.jal	plt(__reloc_self)
 	 l.addi	r1, r1, -16
 

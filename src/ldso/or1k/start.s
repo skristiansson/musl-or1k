@@ -24,6 +24,5 @@ _dlstart:
 	l.addi	r4, r4, 1
 	l.sw	-4(r1), r4
 
-	l.ori	r9, r3, 0
-	l.jr	r9
+	l.jr	r11
 	 l.ori	r3, r0, 0

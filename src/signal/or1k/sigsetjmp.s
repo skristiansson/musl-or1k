@@ -6,7 +6,7 @@ sigsetjmp:
 __sigsetjmp:
 	l.sfeq	r4, r0
 	l.bf	plt(setjmp)
-	 l.sw	128(r3), r4	/* buf->__fl = save */
+	 l.sw	52(r3), r4	/* buf->__fl = save */
 
 	l.addi	r1, r1, -8
 	l.sw	0(r1), r9

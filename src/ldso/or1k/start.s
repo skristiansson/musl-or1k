@@ -21,8 +21,10 @@ _dlstart:
 	l.sfeqi	r5, -1
 	l.bf	1b
 	 l.addi	r1, r1, 4
+
 	l.addi	r4, r4, 1
-	l.sw	-4(r1), r4
+	l.addi	r1, r1, -4
+	l.sw	0(r1), r4
 
 	l.jr	r11
 	 l.ori	r3, r0, 0

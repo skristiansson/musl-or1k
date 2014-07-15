@@ -11,7 +11,7 @@ __sigsetjmp:
 	l.addi	r1, r1, -8
 	l.sw	0(r1), r9
 	l.sw	4(r1), r3
-	l.addi	r5, r3, 132	/* buf->__ss */
+	l.addi	r5, r3, 56	/* buf->__ss */
 	l.add	r4, r0, r0
 	l.jal	plt(sigprocmask)
 	 l.ori	r3, r0, 2	/* SIG_SETMASK */
